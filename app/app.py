@@ -1,9 +1,11 @@
 from flask import Flask, render_template
 import os
 
+# Declaration of project directory 
 template_dir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 template_dir = os.path.join(template_dir, 'src', 'views')
 
+# Renders main page view
 app = Flask(__name__, template_folder = template_dir)
 
 @app.route('/')
