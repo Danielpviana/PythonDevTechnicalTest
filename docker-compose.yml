@@ -2,16 +2,16 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:5.7
+    image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: inventory_db
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_DATABASE: aht-global-db
     ports:
       - "3306:3306"
 
   web:
     build: .
-    command: flask run --host=0.0.0.0
+    command: python -m flask --app ./app/app.py run --host=0.0.0.0
     volumes:
       - .:/app
     ports:
