@@ -11,7 +11,7 @@ services:
 
   web:
     build: .
-    command: python -m flask --app ./app/app.py run --host=0.0.0.0
+    command: python -m flask --app ./app/main.py run --host=0.0.0.0
     volumes:
       - .:/app
     ports:

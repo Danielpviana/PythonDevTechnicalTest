@@ -3,7 +3,7 @@
 {% block content %}
 <h1 class="mt-4">{%if item is none %}Create{% else %}Update{% endif %}</h1>
 <hr>
-<form method="POST" action="{%if item is none %} {{ url_for('create_product') }} {% else %} {{ url_for('update_product',id=item.id) }} {% endif %}">
+<form method="POST" action="{%if item is none %} {{ url_for('main.create_product') }} {% else %} {{ url_for('main.update_product',id=item.id) }} {% endif %}">
   <div class="form-group mb-3">
     <label>Name</label>
     <input type="text" class="form-control" value="{{item.name}}" name="name" required>

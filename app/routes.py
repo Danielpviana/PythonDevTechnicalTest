@@ -1,51 +1,69 @@
-from flask import render_template, request, redirect, url_for
-from app import app, db
-from app.models import Inventory
+from flask import Blueprint, render_template, request, redirect, url_for
+from app.db_config import db
+from app.models import Product
 
-@app.route('/')
-def index():
-    items = Inventory.query.all()
-    return render_template('index.html', items=items)
+router = Blueprint('main', __name__, template_folder='templates')
 
-@app.route('/add', methods=['GET', 'POST'])
-def add():
-    if request.method == 'POST':
-        name = request.form['name']
-        price = request.form['price']
-        mac_address = request.form['mac_address']
-        serial_number = request.form['serial_number']
-        manufacturer = request.form['manufacturer']
-        description = request.form['description']
+@router.route("/")
+def base():
+    items = Product.query.all()
+    return render_template('index.html',items = items)
 
-        new_item = Inventory(
-            name=name, price=price, mac_address=mac_address, 
-            serial_number=serial_number, manufacturer=manufacturer, 
-            description=description
-        )
-
-        db.session.add(new_item)
-        db.session.commit()
-        return redirect(url_for('index'))
-    return render_template('add.html')
-
-@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+@router.route("/edit/<int:id>")
 def edit(id):
-    item = Inventory.query.get_or_404(id)
-    if request.method == 'POST':
-        item.name = request.form['name']
-        item.price = request.form['price']
-        item.mac_address = request.form['mac_address']
-        item.serial_number = request.form['serial_number']
-        item.manufacturer = request.form['manufacturer']
-        item.description = request.form['description']
+    item = Product.query.get_or_404(id)
+    return render_template("add.html",item = item)
 
-        db.session.commit()
-        return redirect(url_for('index'))
-    return render_template('edit.html', item=item)
-
-@app.route('/delete/<int:id>')
+@router.route("/delet/<int:id>")
 def delete(id):
-    item = Inventory.query.get_or_404(id)
-    db.session.delete(item)
-    db.session.commit()
-    return redirect(url_for('index'))
+    db_product = Product.query.get(id)
+    try:
+        db.session.delete(db_product)
+        db.session.commit()
+        return redirect(url_for("main.base"))
+    except:
+        return 'Error deleting'
+    
+@router.route("/add")
+def add():
+    return render_template("add.html", item = None)
+
+
+@router.route("/create", methods=['POST'])
+def create_product():
+    new_product = Product(
+            name=request.form['name'],
+            price=request.form['price'],
+            mac_address=request.form['mac_address'],
+            serial_number=request.form['serial_number'],
+            manufacturer=request.form['manufacturer'],
+            description=request.form.get('description', '')
+        )
+    try:
+        db.session.add(new_product)
+        db.session.commit()
+        return redirect(url_for("main.base"))
+    except:
+        return 'Error creating the product'
+    
+
+@router.route("/update/<int:id>", methods=['POST'])
+def update_product(id):
+    name = request.form['name']
+    price = request.form['price']
+    mac_address = request.form['mac_address']
+    serial_number = request.form['serial_number']
+    manufacturer = request.form['manufacturer']
+    description = request.form.get('description', '')
+    db_product = Product.query.get(id)
+    db_product.name = name
+    db_product.price = price
+    db_product.mac_address = mac_address
+    db_product.serial_number = serial_number
+    db_product.manufacturer = manufacturer
+    db_product.description = description
+    try:
+        db.session.commit()
+        return redirect(url_for("main.base"))
+    except:
+        return 'Error updating'

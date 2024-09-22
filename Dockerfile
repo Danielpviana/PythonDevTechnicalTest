@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 EXPOSE 5000
 
 # Run app.py when the container launches
-CMD ["python", "-m", "flask", "--app", "./app/app.py", "run", "--host=0.0.0.0"]
+CMD ["python", "-m", "flask", "--app", "./app/main.py", "run", "--host=0.0.0.0"]
