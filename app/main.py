@@ -6,8 +6,12 @@ app = create_app()
 if __name__ == "__main__":
     app.run()
 
-with app.app_context():
-    db.create_all()  # Ensure tables are created
+@app.before_request
+def create_tables():
+    db.create_all()
+    
+# with app.app_context():
+#     db.create_all()  # Ensure tables are created
     
     # items = [
 #         {
