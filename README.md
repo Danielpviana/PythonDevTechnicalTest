@@ -39,6 +39,8 @@ Once the dependencies are installed, you can start using the application. Make s
 python -m flask --app ./app/main.py run
 ```
 
+Once the web application is running, it can be accessed through port `[localhost:5000]`
+
 ## Docker deployment 
 **Running docker containers**
 
@@ -47,6 +49,10 @@ Deploy the application by running docker-compose.
 ```PowerShell
 docker-compose -f docker-compose.yml up --build
 ```
+
+Once the web application is running in a separate container, it can be accessed through port `[localhost:5000](http://127.0.0.1:5000)`
+
+Database communication occurs through docker localhost port `[localhost:3306]`
 
 ## File Structure
 PythonDevTechnicalTest/
