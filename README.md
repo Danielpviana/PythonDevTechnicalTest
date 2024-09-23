@@ -5,81 +5,72 @@ Table of Contents
 1. Project Overview
 2. Requirements
 3. Installation
-4. Usage
+4. Docker deployment
 5. File Structure
-6. Running with Docker
+6. Shutdown application
 
 ## Project Overview
 This project is designed to demonstrate technical proficiency in Python development, Docker, and working with a pre-configured application environment. The app consists of several services running via Docker, ensuring easy deployment and scalability.
 
 ## Requirements
 Python 3.x
+
 Docker & Docker Compose
-Installation
-1. Clone the Repository:
+
+## Installation
+1. **Clone the Repository**:
 To get started, clone the repository to your local machine:
 
-bash
-`git clone https://github.com/Danielpviana/PythonDevTechnicalTest.git
-cd PythonDevTechnicalTest`
-2. Install Python Dependencies:
+```PowerShell
+git clone https://github.com/Danielpviana/PythonDevTechnicalTest.git
+```
+
+2. **Install Python Dependencies**:
 If you plan to run the app outside Docker, first install the required Python dependencies:
 
-bash
-Copy code
+```PowerShell
 pip install -r requirements.txt
-Usage
-Running Locally
+```
+
+3. **Running Locally**:
 Once the dependencies are installed, you can start using the application. Make sure to set up any necessary environment variables or configuration files as per your requirements.
 
-bash
-Copy code
-python app/main.py
-Running Tests
-To run tests for the application:
+```PowerShell
+python -m flask --app ./app/main.py run
+```
 
-bash
-Copy code
-pytest
+## Docker deployment 
+**Running docker containers**
 
+Deploy the application by running docker-compose.
+
+```PowerShell
+docker-compose -f docker-compose.yml up --build
+```
 
 ## File Structure
-plaintext
-Copy code
 PythonDevTechnicalTest/
+```
 │
 ├── app/                  # Main application code
-│   ├── __init__.py
+│   ├── app_config.py     # Application setup
+│   ├── db_config.py      # Database setup
 │   ├── main.py           # Entry point of the app
-│   └── tests/            # Unit tests
-│
+│   ├── models.py         # Object definition for database table creation
+│   ├── routes.py         # Routing services for database transactions
+│   └── templates/        # Jinja2 templates for views
+│       ├── add.html      # Addition or modification of products
+│       ├── base.html     # Main layout for general views
+│       ├── index.html    # Main view
 ├── Dockerfile            # Docker image configuration
 ├── docker-compose.yml    # Docker Compose for multi-container setup
 ├── requirements.txt      # Python dependencies
 └── .gitignore            # Git ignore file
-Running with Docker
-1. Build Docker Image:
-You can build the Docker image for the project using the following command:
+```
 
-bash
-Copy code
-docker-compose build
-2. Start the Application:
-Use Docker Compose to start the services. It will automatically set up the necessary containers and network.
-
-bash
-Copy code
-docker-compose up
-The application will be available at http://localhost:8000 (or any specified port).
-
-3. Shut Down the Application:
+## Shutdown the Application:
 To stop and remove the containers:
 
-bash
-Copy code
+```Powershell
 docker-compose down
-Contributing
-Contributions are welcome! Please open a pull request with any improvements or bug fixes. Ensure your code passes all tests before submitting.
-
-License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+```
